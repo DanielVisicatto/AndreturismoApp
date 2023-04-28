@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using AndreTurismoApp.AddressService.Data;
 using AndreTurismoApp.Models;
+using AndreTurismoApp.Models.DTOs;
+
+using AndreTurismoApp.Services;
 
 namespace AndreTurismoApp.AddressService.Controllers
 {
@@ -15,10 +18,12 @@ namespace AndreTurismoApp.AddressService.Controllers
     public class AddressesController : ControllerBase
     {
         private readonly AndreTurismoAppAddressServiceContext _context;
+        private readonly PostOffice _post;
 
-        public AddressesController(AndreTurismoAppAddressServiceContext context)
+        public AddressesController(AndreTurismoAppAddressServiceContext context, PostOffice post)
         {
             _context = context;
+            _post = post;
         }
 
         // GET: api/Addresses
@@ -30,6 +35,12 @@ namespace AndreTurismoApp.AddressService.Controllers
               return NotFound();
           }
             return await _context.Address.ToListAsync();
+        }
+
+        [HttpGet("{cep:length(8)}")]
+        public AddressDTO GetAddressByCep(string cep)
+        {            
+            return _post.GetAddress(cep).Result;
         }
 
         // GET: api/Addresses/5
