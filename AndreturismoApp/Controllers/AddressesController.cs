@@ -5,25 +5,20 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
-using AndreTurismoApp.AddressService.Data;
 using AndreTurismoApp.Models;
-using AndreTurismoApp.Models.DTOs;
+using AndreturismoApp.Data;
 
-using AndreTurismoApp.Services;
-
-namespace AndreTurismoApp.AddressService.Controllers
+namespace AndreturismoApp.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
     public class AddressesController : ControllerBase
     {
-        private readonly AndreTurismoAppAddressServiceContext _context;
-        private readonly PostOffice _post;
+        private readonly AndreturismoAppContext _context;
 
-        public AddressesController(AndreTurismoAppAddressServiceContext context, PostOffice post)
+        public AddressesController(AndreturismoAppContext context)
         {
             _context = context;
-            _post = post;
         }
 
         // GET: api/Addresses
@@ -35,12 +30,6 @@ namespace AndreTurismoApp.AddressService.Controllers
               return NotFound();
           }
             return await _context.Address.ToListAsync();
-        }
-
-        [HttpGet("{cep:length(8)}")]
-        public AddressDTO GetAddressByCep(string cep)
-        {            
-            return _post.GetAddress(cep).Result;
         }
 
         // GET: api/Addresses/5
@@ -94,23 +83,13 @@ namespace AndreTurismoApp.AddressService.Controllers
 
         // POST: api/Addresses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
-        [HttpPost("{zip}, {number}")]
-        public async Task<ActionResult<Address>> PostAddress(string zip, string number, Address address)
+        [HttpPost]
+        public async Task<ActionResult<Address>> PostAddress(Address address)
         {
           if (_context.Address == null)
           {
-              return Problem("Entity set 'AndreTurismoAppAddressServiceContext.Address'  is null.");
+              return Problem("Entity set 'AndreturismoAppContext.Address'  is null.");
           }
-            address.Number = Convert.ToInt32(number);
-            address.ZipCode = zip;
-
-            AddressDTO dto1 = GetAddressByCep(zip);
-            address.Street = dto1.Street;
-            address.Neighborhood = dto1.Neighbohood;
-            address.City.Description = dto1.City;
-            address.Complement = dto1.Complement;
-
-
             _context.Address.Add(address);
             await _context.SaveChangesAsync();
 
