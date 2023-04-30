@@ -1,6 +1,6 @@
 ﻿namespace AndreTurismoApp.Models
 {
-    internal class Package
+    public class Package
     {
         #region[Properties]
         public int Id { get; set; }

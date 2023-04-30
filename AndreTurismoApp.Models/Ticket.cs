@@ -1,6 +1,6 @@
 ﻿namespace AndreTurismoApp.Models
 {
-    internal class Ticket
+    public class Ticket
     {
         #region[Properties]
         public int Id { get; set; }
