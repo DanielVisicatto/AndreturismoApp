@@ -11,7 +11,7 @@ namespace AndreturismoApp.Services
         {
             try
             {
-                HttpResponseMessage response = await CustomerService.customerClient.GetAsync("");
+                HttpResponseMessage response = await CustomerService.customerClient.GetAsync("https://localhost:7268/api/Customers");
                 response.EnsureSuccessStatusCode();
                 string customer = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Customer>>(customer);

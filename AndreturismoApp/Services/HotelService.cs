@@ -11,7 +11,7 @@ namespace AndreturismoApp.Services
         {
             try
             {
-                HttpResponseMessage response = await HotelService.hotelClient.GetAsync("");
+                HttpResponseMessage response = await HotelService.hotelClient.GetAsync("https://localhost:7221/api/Hotels");
                 response.EnsureSuccessStatusCode();
                 string hotel = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Hotel>>(hotel);

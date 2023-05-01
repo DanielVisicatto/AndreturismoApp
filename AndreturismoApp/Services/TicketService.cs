@@ -11,7 +11,7 @@ namespace AndreturismoApp.Services
         {
             try
             {
-                HttpResponseMessage response = await TicketService.ticketClient.GetAsync("");
+                HttpResponseMessage response = await TicketService.ticketClient.GetAsync("https://localhost:7208/api/Packages");
                 response.EnsureSuccessStatusCode();
                 string ticket = await response.Content.ReadAsStringAsync();
                 return JsonConvert.DeserializeObject<List<Ticket>>(ticket);
