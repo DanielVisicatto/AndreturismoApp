@@ -15,7 +15,7 @@ namespace AndreTurismoApp.Models.DTOs
         public string? Complement { get; set; }
         
         [JsonProperty("bairro")]
-        public string? Neighbohood { get; set; }
+        public string? Neighborhood { get; set; }
         
         [JsonProperty("localidade")]
         public string? City { get; set; }

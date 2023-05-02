@@ -30,16 +30,16 @@ namespace AndreTurismoApp.AddressService.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<Address>>> GetAddress()
         {
-          if (_context.Address == null)
-          {
-              return NotFound();
-          }
+            if (_context.Address == null)
+            {
+                return NotFound();
+            }
             return await _context.Address.ToListAsync();
         }
 
         [HttpGet("{cep:length(8)}")]
         public AddressDTO GetAddressByCep(string cep)
-        {            
+        {
             return _post.GetAddress(cep).Result;
         }
 
@@ -47,10 +47,10 @@ namespace AndreTurismoApp.AddressService.Controllers
         [HttpGet("{id}")]
         public async Task<ActionResult<Address>> GetAddress(int id)
         {
-          if (_context.Address == null)
-          {
-              return NotFound();
-          }
+            if (_context.Address == null)
+            {
+                return NotFound();
+            }
             var address = await _context.Address.FindAsync(id);
 
             if (address == null)
@@ -95,7 +95,7 @@ namespace AndreTurismoApp.AddressService.Controllers
         // POST: api/Addresses
         // To protect from overposting attacks, see https://go.microsoft.com/fwlink/?linkid=2123754
         [HttpPost("{zip}, {number}")]
-        public async Task<ActionResult<Address>> PostAddress(string zip, string number, Address address)
+        public async Task<ActionResult<Address>> PostAddress(string zip,string number, Address address)
         {
           if (_context.Address == null)
           {
@@ -105,8 +105,9 @@ namespace AndreTurismoApp.AddressService.Controllers
             address.ZipCode = zip;
 
             AddressDTO dto1 = GetAddressByCep(zip);
+            //var addressComplet = new Address(dto1);
             address.Street = dto1.Street;
-            address.Neighborhood = dto1.Neighbohood;
+            address.Neighborhood = dto1.Neighborhood;
             address.City.Description = dto1.City;
             address.Complement = dto1.Complement;
 
